@@ -39,7 +39,7 @@ void Del(node **begin) {
 	delete j;
 }
 
-void reverse(struct node ** head)
+void reverse(node ** head)
 {
 	if (*head == NULL) return;
 	struct node * curr, *next, *prev = NULL;
