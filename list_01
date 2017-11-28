@@ -9,13 +9,16 @@ void add(node *begin, int a) {
 	node* j = new node;
 	j->next = begin;
 	j->value = a;
-	while (begin) {
-		if (begin->next == NULL) {
-			begin->next = j;
-			j->next = NULL;
-			break;
+	if (begin->value == NULL) { begin->value = a; begin->next = NULL; delete j; return; }
+	else {
+		while (begin) {
+			if (begin->next == NULL) {
+				begin->next = j;
+				j->next = NULL;
+				break;
+			}
+			begin = begin->next;
 		}
-		begin = begin->next;
 	}
 }
 
@@ -26,42 +29,37 @@ void Print(node *m) {
 		print = print->next;
 	}
 	cout << "NULL" << endl;
+	delete print;
 }
 
-void Del(node *begin) {
-	//node* j = new node;
-	//j = begin;
-	//begin->next = begin;
-	//begin->next->next = begin->next;
-	//delete begin;
-	//begin = j;
-	//delete begin;
-	//begin->next = begin->next->next;
-	/*while (begin->next) {
-		if (begin->next->next == 0) {
-			begin->next = 0;
-		}
-		else {
-			begin = begin->next;
-		}
-	}*/
+void Del(node **begin) {
+	node* j = new node;
+	*j = **begin;
+	*begin = j->next;
+	delete j;
 }
+
+void reverse(struct node ** head)
+{
+	if (*head == NULL) return;
+	struct node * curr, *next, *prev = NULL;
+	curr = *head;
+	while (curr)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	*head = prev;
+}
+
 char op;
 int main()
 {
-	int value[5] = { 1,2,3,4,5 };
 	int a; char q=0;
-	node* begin = NULL;
-	begin = new node;
-	begin->value = value[0];
-	node* end = begin;
-	for (int i = 1; i < 5; i++) {
-		
-		end->next = new node;
-		end = end->next;
-		end->value = value[i];
-		end->next = NULL;
-	}
+	node *begin = new node;
+	begin->value = NULL;
 	while (op != 'q') {
 		cin >> op;
 		switch (op) {
@@ -74,7 +72,11 @@ int main()
 			Print(begin);
 			break;
 		case '-':
-			Del(begin);
+			Del(&begin);
+			Print(begin);
+			break;
+		case '/':
+			reverse(&begin);
 			Print(begin);
 			break;
 		}
