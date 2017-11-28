@@ -42,7 +42,7 @@ void Del(node **begin) {
 void reverse(node ** head)
 {
 	if (*head == NULL) return;
-	struct node * curr, *next, *prev = NULL;
+	node * curr, *next, *prev = NULL;
 	curr = *head;
 	while (curr)
 	{
