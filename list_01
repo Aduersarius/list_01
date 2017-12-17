@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <iostream>
 using namespace std;
 struct node {
@@ -5,22 +6,20 @@ struct node {
 	node * next;
 };
 
-void add(node *begin, int a) {
+void add(node *&begin, int a) {
 	node* j = new node;
-	j->next = begin;
+	node *head = begin;
+	j->next = NULL;
 	j->value = a;
-	if (begin->value == NULL) { begin->value = a; begin->next = NULL; delete j; return; }
+	if (begin == NULL) { begin = j; return; }
 	else {
-		while (begin) {
-			if (begin->next == NULL) {
-				begin->next = j;
-				j->next = NULL;
-				break;
-			}
-			begin = begin->next;
+		while (head->next) {
+			head = head->next;
 		}
+		head->next = j;
 	}
 }
+
 
 void Print(node *m) {
 	node *print = m;
@@ -59,7 +58,7 @@ int main()
 {
 	int a; char q=0;
 	node *begin = new node;
-	begin->value = NULL;
+	begin = NULL;
 	while (op != 'q') {
 		cin >> op;
 		switch (op) {
@@ -78,7 +77,6 @@ int main()
 		case '/':
 			reverse(&begin);
 			Print(begin);
-			break;
 		}
 	}
     return 0;
